@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Campus Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <a href="/" class="brand">
+    <span class="brand-icon">🎓</span>
+    <span>Campus Events</span>
+  </a>
+  <nav>
+    <a href="/">Events</a>
+    <a href="/admin-panel" class="active">Admin</a>
+  </nav>
+</header>
+
+<div id="notif-panel" class="notif-panel"></div>
+
+<main class="container">
+  <h1 class="page-title">⚙️ Admin Panel</h1>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon">📅</span>
+      <div class="stat-value" id="stat-events">—</div>
+      <div class="stat-label">Total Events</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">✅</span>
+      <div class="stat-value" id="stat-registrations">—</div>
+      <div class="stat-label">Registrations</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">👥</span>
+      <div class="stat-value" id="stat-students">—</div>
+      <div class="stat-label">Students</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Event Types</div>
+      <div id="stat-types" style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.5rem"></div>
+    </div>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="admin-cols">
+
+    <!-- Create Event -->
+    <div class="admin-panel-card">
+      <h2 class="section-title">➕ Create New Event</h2>
+      <div id="create-alert"></div>
+      <form id="create-event-form">
+        <div class="form-group">
+          <label for="ev-title">Event Title</label>
+          <input type="text" id="ev-title" placeholder="e.g. Python for Data Science" required />
+        </div>
+        <div class="form-group">
+          <label for="ev-type">Event Type</label>
+          <select id="ev-type" required>
+            <option value="">Select type</option>
+            <option value="workshop">Workshop</option>
+            <option value="hackathon">Hackathon</option>
+            <option value="seminar">Seminar</option>
+            <option value="guest_lecture">Guest Lecture</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ev-date">Date & Time</label>
+          <input type="datetime-local" id="ev-date" required />
+        </div>
+        <div class="form-group">
+          <label for="ev-venue">Venue</label>
+          <input type="text" id="ev-venue" placeholder="e.g. Lab 101, Auditorium" required />
+        </div>
+        <div class="form-group">
+          <label for="ev-seats">Max Seats</label>
+          <input type="number" id="ev-seats" min="1" placeholder="e.g. 50" required />
+        </div>
+
+        <!-- Attribute Builder -->
+        <div class="form-group">
+          <label>Attributes (key-value pairs)</label>
+          <div id="attributes-wrap"></div>
+          <button type="button" class="btn btn-outline btn-sm" id="add-attr-btn" style="margin-top:.5rem">
+            + Add Attribute
+          </button>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="create-event-btn">Create Event</button>
+      </form>
+    </div>
+
+    <!-- Events Table -->
+    <div class="admin-panel-card">
+      <h2 class="section-title">📋 All Events</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Registered</th>
+              <th>Live Seats</th>
+              <th>Queue</th>
+            </tr>
+          </thead>
+          <tbody id="admin-events-list">
+            <tr><td colspan="6" style="text-align:center;color:var(--muted)">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics -->
+  <div class="admin-panel-card">
+    <h2 class="section-title">📊 Analytics & Reports</h2>
+
+    <div class="analytics-grid">
+      <div class="analytics-section">
+        <h3>🏆 Top Events by Registrations</h3>
+        <div id="tbl-top-events"></div>
+      </div>
+      <div class="analytics-section">
+        <h3>🏫 Department Participation</h3>
+        <div id="tbl-dept"></div>
+      </div>
+      <div class="analytics-section">
+        <h3>🌟 Most Active Students</h3>
+        <div id="tbl-active"></div>
+      </div>
+      <div class="analytics-section">
+        <h3>✅ Attendance Rate by Type</h3>
+        <div id="tbl-attendance"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Queue Modal -->
+<div class="modal-overlay" id="queue-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="queue-modal-title">Registration Queue</h2>
+      <button class="modal-close" onclick="closeModal('queue-modal')" aria-label="Close">✕</button>
+    </div>
+    <div id="queue-content"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('queue-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/notifications.js"></script>
+<script src="/static/js/admin.js"></script>
+</body>
+</html>
