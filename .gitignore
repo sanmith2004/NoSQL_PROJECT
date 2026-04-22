@@ -1,0 +1,7 @@
+MONGO_URI=mongodb://localhost:27017/
+DB_NAME=my_events
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+SECRET_KEY=campus-events-secret-2024
+DEBUG=True
